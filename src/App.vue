@@ -19,22 +19,31 @@
 <script>
 import { db } from "@/plugins/firebase";
 export default {
-  name: "App",
-  components: {},
-  data() {
-    return {
-      menu: []
-    };
-  },
-  created() {},
-  computed: {},
-  methods: {},
-  watch: {},
-  firestore() {
-    return {
-      menu: db.collection("menu")
-    };
-  }
+	name: "App",
+	components: {
+	},
+	data() {
+		return {
+			menu: [],
+		};
+	},
+	created() {  
+
+	},
+	computed: {
+
+	},
+	methods: {
+
+	},
+	watch: {
+		
+	},
+	firestore() {
+		return {
+				menu: db.collection('menu')
+			}
+	},
 };
 </script>
 
