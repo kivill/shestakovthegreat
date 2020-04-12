@@ -18,6 +18,7 @@
     "firebase": "^6.6.2",
     "libphonenumber-js": "^1.7.27",
     "moment": "^2.24.0",
+    "tiptap-vuetify": "^2.13.2",
     "v-tooltip": "^2.0.2",
     "vee-validate": "^2.2.7",
     "vue": "^2.6.10",

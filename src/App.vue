@@ -1,5 +1,11 @@
 <template>
   <div id="app">
+	<head>
+		<link
+			href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"
+			rel="stylesheet"
+		>
+	</head>
     <v-app>
       <v-app-bar app color="teal lighten-1">
         <v-toolbar-title>Название сайта</v-toolbar-title>
