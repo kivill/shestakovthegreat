@@ -6,7 +6,7 @@ import router from '@/router';
 import store from '@/store';
 import vuetify from '@/plugins/vuetify';
 import '@/plugins/tiptap-vuetify';
-
+import '@mdi/font/css/materialdesignicons.css';
 import { firestorePlugin } from 'vuefire'
 
 Vue.config.productionTip = false;
