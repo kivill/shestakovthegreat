@@ -27,7 +27,7 @@ export default {
     methods: {
         addSection() {
             if (this.name.length > 0) {
-                db.collection('section').add({
+                db.collection('sections').add({
                     name: this.name,
                 })
             };
@@ -36,7 +36,7 @@ export default {
     },
 	firestore() {
 		return {
-            menu: db.collection('section')
+            menu: db.collection('sections')
         }
 	},
 }

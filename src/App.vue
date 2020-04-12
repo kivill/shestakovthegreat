@@ -41,7 +41,7 @@ export default {
 	},
 	firestore() {
 		return {
-				menu: db.collection('menu')
+				menu: db.collection('sections')
 			}
 	},
 };
