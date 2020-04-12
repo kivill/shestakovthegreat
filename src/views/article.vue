@@ -1,6 +1,5 @@
 <template>
     <div>
-        {{article}}
     <v-text-field
         v-model="article.name"
         label="Название статьи"
