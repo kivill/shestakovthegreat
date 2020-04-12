@@ -3,10 +3,9 @@
     <v-app>
       <v-app-bar app color="teal lighten-1">
         <v-toolbar-title>Название сайта</v-toolbar-title>
-		
-		{{menu}}
+        {{menu}}
       </v-app-bar>
-      <v-content >
+      <v-content>
         <v-container fluid>
           <vue-page-transition name="fade-in-left">
             <router-view />
@@ -18,34 +17,24 @@
 </template>
 
 <script>
-
-import { db } from '@/plugins/firebase'
+import { db } from "@/plugins/firebase";
 export default {
-	name: "App",
-	components: {
-	},
-	data() {
-		return {
-			menu: [],
-		};
-	},
-	created() {  
-
-	},
-	computed: {
-
-	},
-	methods: {
-
-	},
-	watch: {
-		
-	},
-	firestore() {
-		return {
-				menu: db.collection('menu')
-			}
-		},
+  name: "App",
+  components: {},
+  data() {
+    return {
+      menu: []
+    };
+  },
+  created() {},
+  computed: {},
+  methods: {},
+  watch: {},
+  firestore() {
+    return {
+      menu: db.collection("menu")
+    };
+  }
 };
 </script>
 

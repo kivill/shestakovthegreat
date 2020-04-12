@@ -2,16 +2,17 @@ import firebase from 'firebase/app'
 import 'firebase/firestore'
 
 // firebase init goes here
+
 const config = {
-    apiKey: "AIzaSyBAphdnWThNB5RJvZ36tmeRk8T90myczws",
-    authDomain: "shestakovthegreat.firebaseapp.com",
-    databaseURL: "https://shestakovthegreat.firebaseio.com",
-    projectId: "shestakovthegreat",
-    storageBucket: "shestakovthegreat.appspot.com",
-    messagingSenderId: "468456982261",
-    appId: "1:468456982261:web:5bf12e85ce6b697ab2a7bc",
-    measurementId: "G-SGVWJ7Y160"
-}
+    apiKey: "AIzaSyCWQW_HhJFLg1Z2DjEmqQyhzsKrtPXJtK8",
+    authDomain: "shestakovthegreat-7f68a.firebaseapp.com",
+    databaseURL: "https://shestakovthegreat-7f68a.firebaseio.com",
+    projectId: "shestakovthegreat-7f68a",
+    storageBucket: "shestakovthegreat-7f68a.appspot.com",
+    messagingSenderId: "490306892656",
+    appId: "1:490306892656:web:44eb209a8db9f3b50895b5",
+    measurementId: "G-P3T49G5XDB"
+  };
 firebase.initializeApp(config)
 
 // firebase utils
