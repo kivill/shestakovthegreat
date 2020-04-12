@@ -1,14 +1,23 @@
 <template>
     <div>
+        {{article}}
+    <v-text-field
+        v-model="article.name"
+        label="Название статьи"
+    ></v-text-field>
+    <v-btn @click="saveArticle()">
+        Сохранить
+    </v-btn>
+    <v-switch v-model="article.public" class="ma-2" label="Публичная статья"></v-switch>
     <tiptap-vuetify
-      v-model="content"
+      v-model="article.text"
       :extensions="extensions"
     />
   </div>
 </template>
 
 <script>
-import { TiptapVuetify, Heading, Bold, Italic, Strike, Underline, Code, Paragraph, BulletList, OrderedList, ListItem, Link, Blockquote, HardBreak, HorizontalRule, History } from 'tiptap-vuetify'
+import { TiptapVuetify, Heading, Bold, Italic, Strike, Underline, CodeBlock, Paragraph, BulletList, OrderedList, ListItem, Link, Blockquote, HardBreak, HorizontalRule, History, Image } from 'tiptap-vuetify'
 export default {
     components: { TiptapVuetify },
     data() {
@@ -29,14 +38,46 @@ export default {
                     }
                 }],
                 Bold,
-                Code,
+                CodeBlock,
                 HorizontalRule,
                 Paragraph,
-                HardBreak
+                HardBreak, 
+                Image
             ],
-            content: `fdghdfghdfg`,
         };
-    }
+    },
+    created() {        
+        if (this.$route.name == 'EditArticle' && !!this.article.textId) {
+            this.$store.dispatch('GET_TEXT')
+        };
+    },
+    computed: {
+        article() {
+            return this.$store.getters.CURRENT_ARTICLE;
+        }
+    },
+    methods: {
+        saveArticle() {
+            if (this.$route.name == 'EditArticle') {
+                this.$store.dispatch('UPDATE_ARTICLE')
+                .then((articleRef) =>{
+                    this.$router.push({ path: '/articles' });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            }
+            if (this.$route.name == 'CreateArticle') {
+                this.$store.dispatch('SAVE_ARTICLE')
+                .then((articleRef) =>{
+                    this.$router.push({ path: '/articles' });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            }
+        },
+    },
 }
 </script>
 

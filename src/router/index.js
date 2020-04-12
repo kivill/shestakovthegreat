@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 
 import mainPage from '@/views/main.vue';
+import articles from '@/views/articles.vue';
 import article from '@/views/article.vue';
 
 Vue.use(Router);
@@ -13,7 +14,17 @@ const router = new Router({
       component: mainPage,
     },
     {
-      path: '/article',
+      path: '/articles',
+      component: articles,
+    },
+    {
+      path: '/articles/create',
+      name: 'CreateArticle',
+      component: article,
+    },
+    {
+      path: '/articles/edit',
+      name: 'EditArticle',
       component: article,
     },
   ],
