@@ -1,5 +1,4 @@
 <template>
-
 <div id="app">
   <head>
     <link
@@ -10,7 +9,7 @@
   <v-app>
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
       <v-list dense>
-        <template v-for="item in menu">
+        <template v-for="item in sections">
           <v-list-group
             v-if="item.subsections"
             :key="item.text"
@@ -67,7 +66,6 @@
     <v-content>
       <v-container>
         <vue-page-transition name="fade-in-left">
-          <changeSection :menu="menu"/>
           <router-view />
         </vue-page-transition>
       </v-container>
@@ -78,15 +76,14 @@
 
 <script>
 import { db } from "@/plugins/firebase";
-import changeSection from "./components/changeSections";
 export default {
   name: "App",
-  components: { changeSection },
+  components: {},
   data() {
     return {
-      menu: [],
+      sections: [],
       dialog: false,
-      drawer: false,
+      drawer: true,
       items: [
         { icon: "mdi-contacts", name: "Contacts" },
         { icon: "mdi-history", name: "Frequently contacted" },
@@ -120,8 +117,10 @@ export default {
     };
   },
   created() {
-    console.log("menu", this.menu);
-    this.menu.map(el => console.log(el));
+    this.$store.dispatch("SET_SECTIONS", this.sections);
+  },
+  mounted() {
+    console.log(this.$store.getters.SECTIONS);
   },
   computed: {
     bg() {
@@ -133,9 +132,7 @@ export default {
   methods: {},
   watch: {},
   firestore() {
-    return {
-      menu: db.collection("sections")
-    };
+    return { sections: db.collection("sections") };
   }
 };
 </script>

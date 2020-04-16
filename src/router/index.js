@@ -4,6 +4,7 @@ import Router from 'vue-router';
 import mainPage from '@/views/main.vue';
 import articles from '@/views/articles.vue';
 import article from '@/views/article.vue';
+import sections from '@/views/sections.vue';
 
 Vue.use(Router);
 const router = new Router({
@@ -27,6 +28,10 @@ const router = new Router({
       name: 'EditArticle',
       component: article,
     },
+    {
+      path: '/sections',
+      component: sections
+    }
   ],
 });
 

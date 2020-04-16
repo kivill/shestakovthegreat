@@ -10,6 +10,7 @@ const state = {
         public: false,
         text: '',
         textId: '',
+        subsectionId: '', //TODO Указать связь
     }
 };
 
@@ -38,6 +39,7 @@ const mutations = {
             public: false,
             text: '',
             textId: '',
+            subsectionId: '', //TODO
         };
     },
 };
@@ -93,6 +95,7 @@ const actions = {
                     name: state.currentArticle.name,
                     public: state.currentArticle.public,
                     textId: textRef.id,
+                    subsectionId: '', //TODO
                 })
                 .then((articleRef) => {
                     context.commit('SET_ARTICLE_DEFAULT');
