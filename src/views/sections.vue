@@ -37,6 +37,8 @@
         </v-list-item-action>
       </v-list-item>
     </v-list>
+
+
     <v-overlay :value="overlay">
       <editSection />
       <v-btn icon @click="overlay = false">
@@ -56,7 +58,7 @@ export default {
   data() {
     return {
       mes: "changeSections",
-      overlay: true
+      overlay: false
     };
   },
   computed: {
