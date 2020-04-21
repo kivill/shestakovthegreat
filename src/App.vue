@@ -8,44 +8,26 @@
   </head>
   <v-app>
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
-      <v-list dense>
-        <template v-for="item in sections">
-          <v-list-group
-            v-if="item.subsections"
-            :key="item.text"
-            v-model="item.model"
-            :prepend-icon="item.model ? item.icon : item['icon-alt']"
-            append-icon
-          >
-            <template v-slot:activator>
-              <v-list-item-content>
-                <v-list-item-title>{{ item.name }}</v-list-item-title>
-              </v-list-item-content>
-            </template>
-            <v-list-item v-for="(child, i) in item.subsections" :key="i" link>
-              <v-list-item-action v-if="child.icon">
-                <v-icon>{{ child.icon }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title>{{ child.name }}</v-list-item-title>
+      <v-list flat>
+        <v-list-item v-for="item in sections" :key="item.id">
+          <v-list-item-content>
+            <v-list-item-title>
+              <strong>{{item.name}}</strong>
+            </v-list-item-title>
+
+            <v-list-item v-if="item.subsections.length" link>
+              <v-list-item-content v-for="(child, childId) in item.subsections" :key="childId">
+                <v-list-item-title>{{child.name}}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-          </v-list-group>
-          <v-list-item v-else :key="item.name" link>
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ item.name }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </template>
+          </v-list-item-content>
+        </v-list-item>
       </v-list>
     </v-navigation-drawer>
 
     <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="gray darken-3" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-toolbar-title style="width: 300px" class="ml-0 pl-4">
+      <v-toolbar-title style="width: 300px" class="pl-3">
         <span class="hidden-sm-and-down">Shestakov the great</span>
       </v-toolbar-title>
 
@@ -120,7 +102,7 @@ export default {
     this.$store.dispatch("SET_SECTIONS", this.sections);
   },
   mounted() {
-    console.log(this.$store.getters.SECTIONS);
+    console.log('STORE.GETTERS.SECTIONS',this.$store.getters.SECTIONS);
   },
   computed: {
     bg() {

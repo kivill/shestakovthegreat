@@ -7,13 +7,13 @@ const state = {
   currentSection: {
     id: '',
     name: '',
-    model: true,
     subsections: []
   }
 }
 
 const getters = {
   SECTIONS: state => state.sections.data,
+  CURRENT_SECTION: state => state.currentSection,
 }
 
 const mutations = {
@@ -22,6 +22,7 @@ const mutations = {
   },
   SET_CURRENT_SECTION: (state, section) => {
     state.currentSection = {
+      id: section.id,
       ...section,
     }
   },
@@ -29,7 +30,6 @@ const mutations = {
     state.currentSection = {
       id: '',
       name: '',
-      model: true,
       subsections: [],
     }
   },
@@ -54,7 +54,6 @@ const actions = {
     })
   },
   SAVE_SECTION: context => {
-    console.log(state.currentSection)
     return new Promise((resolve, reject) => {
       db.collection('sections').add(state.currentSection)
         .then(ref => {
@@ -71,8 +70,8 @@ const actions = {
       db.collection('sections').doc(state.currentSection.id).update({
         name: state.currentSection.name,
       })
-        .then(() => {
-          context.commit('SET_ARTICLE_DEFAULT')
+        .then((r) => {
+          context.commit('SET_SECTION_DEFAULT')
           resolve()
         })
         .catch(error => {

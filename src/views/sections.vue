@@ -9,7 +9,7 @@
           <v-list-item-title v-text="section.name" class="font-weight-black" />
 
           <!-- Перебор подкатегорий -->
-          <v-list-item v-for="subsection in section.subsections" :key="subsection.id">
+          <v-list-item class="pl-10" v-for="subsection in section.subsections" :key="subsection.id">
             <v-list-item-content>
               <v-list-item-title v-text="subsection.name"></v-list-item-title>
             </v-list-item-content>
@@ -22,8 +22,8 @@
               </v-btn>
             </v-list-item-action>
           </v-list-item>
-          <v-list-item>
-            <v-btn @click="createSubsection()">Добавить подкатегорию</v-btn>
+          <v-list-item class="pl-10 pb-10">
+            <v-btn @click="createSubsection()">+Подкатегория</v-btn>
           </v-list-item>
         </v-list-item-content>
 
@@ -38,13 +38,9 @@
       </v-list-item>
     </v-list>
 
-
-    <v-overlay :value="overlay">
-      <editSection />
-      <v-btn icon @click="overlay = false">
-        <v-icon>mdi-close</v-icon>
-      </v-btn>
-    </v-overlay>
+    <v-dialog v-model="overlay" persistent max-width="390">
+      <editSection :mode="mode" v-on:exit="overlay=false" />
+    </v-dialog>
   </v-container>
 </template>
 
@@ -58,7 +54,8 @@ export default {
   data() {
     return {
       mes: "changeSections",
-      overlay: false
+      overlay: false,
+      mode: ""
     };
   },
   computed: {
@@ -69,16 +66,19 @@ export default {
   methods: {
     createSection(e) {
       console.log(e);
-      //this.$store.dispatch('CRE')
+      this.mode = "CREATE";
       this.overlay = true;
     },
     editSection(e) {
       console.log(e);
+      this.mode = "EDIT";
+      this.$store.dispatch("EDIT_SECTION", e);
       this.overlay = true;
     },
     deleteSection(e) {
       console.log(e);
-      this.overlay = true;
+      this.mode = "DELETE";
+      this.$store.dispatch("DELETE_SECTION", e);
     },
     createSubsection(e) {
       console.log(e);
