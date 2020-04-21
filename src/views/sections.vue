@@ -17,13 +17,13 @@
               <v-btn icon @click="editSubsection(subsection)">
                 <v-icon color="grey lighten-1">mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon @click="deleteSubsection(subsection)">
+              <v-btn icon @click="deleteSubsection(subsection, section)">
                 <v-icon color="grey lighten-1">mdi-delete</v-icon>
               </v-btn>
             </v-list-item-action>
           </v-list-item>
-          <v-list-item class="pl-10 pb-10">
-            <v-btn @click="createSubsection()">+Подкатегория</v-btn>
+          <v-list-item class="pl-10 pb-5">
+            <v-btn @click="createSubsection(section)">+Подкатегория</v-btn>
           </v-list-item>
         </v-list-item-content>
 
@@ -82,15 +82,17 @@ export default {
     },
     createSubsection(e) {
       console.log(e);
+      this.mode = "SUBCREATE";
+      this.$store.dispatch("EDIT_SECTION", e);
       this.overlay = true;
     },
     editSubsection(e) {
       console.log(e);
       this.overlay = true;
     },
-    deleteSubsection(e) {
-      console.log(e);
-      this.overlay = true;
+    deleteSubsection(subsection, section) {
+      this.mode = "SUBDELETE";
+      this.$store.dispatch("DELETE_SUBSECTION", { subsection, section });
     }
   }
 };
