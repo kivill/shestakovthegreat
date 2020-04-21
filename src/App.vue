@@ -15,11 +15,13 @@
               <strong>{{item.name}}</strong>
             </v-list-item-title>
 
-            <v-list-item v-if="item.subsections.length > 0">
-              <v-list-item-content v-for="(child, childId) in item.subsections" :key="childId">
-                <v-list-item-title>{{child.name}}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
+            <template v-if="item.subsections.length > 0">
+              <v-list-item v-for="(child, childId) in item.subsections" :key="childId" link>
+                <v-list-item-content>
+                  <v-list-item-title>{{child.name}}</v-list-item-title>
+                </v-list-item-content>
+              </v-list-item>
+            </template>
           </v-list-item-content>
         </v-list-item>
       </v-list>
