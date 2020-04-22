@@ -32,7 +32,7 @@ export default {
   },
   computed: {
     section() {
-      if (this.mode == "SUBCREATE") {
+      if (this.mode == "SUBCREATE" || this.mode == "SUBEDIT") {
         return this.$store.getters.CURRENT_SUBSECTION;
       }
       return this.$store.getters.CURRENT_SECTION;
@@ -52,6 +52,9 @@ export default {
       }
       if (this.mode == "EDIT") {
         this.$store.dispatch("UPDATE_SECTION");
+      }
+      if (this.mode == "SUBEDIT") {
+        this.$store.dispatch("UPDATE_SUBSECTION");
       }
       if (this.mode == "SUBCREATE") {
         this.$store.dispatch("SAVE_SUBSECTION");

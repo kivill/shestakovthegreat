@@ -34,6 +34,8 @@
       </v-toolbar-title>
 
       <v-spacer />
+      <v-btn @click="$router.push({path:'/sections'})">Разделы</v-btn>
+      <v-btn @click="$router.push({path:'/articles'})">Статьи</v-btn>
       <!-- <v-btn icon>
         <v-icon>mdi-apps</v-icon>
       </v-btn>

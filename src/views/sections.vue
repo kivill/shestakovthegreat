@@ -88,6 +88,8 @@ export default {
     },
     editSubsection(e) {
       console.log(e);
+      this.mode = "SUBEDIT"
+      this.$store.dispatch("EDIT_SUBSECTION", e)
       this.overlay = true;
     },
     deleteSubsection(subsection, section) {

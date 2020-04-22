@@ -31,6 +31,12 @@ const mutations = {
       ...section,
     }
   },
+  SET_CURRENT_SUBSECTION: (state, subsection) => {
+    state.currentSubsection = {
+      id: subsection.id,
+      ...subsection,
+    }
+  },
   SET_DEFAULT: state => {
     state.currentSection = {
       id: '',
@@ -53,6 +59,10 @@ const actions = {
   },
   EDIT_SECTION: (context, payload) => {
     context.commit('SET_CURRENT_SECTION', payload)
+  },
+
+  EDIT_SUBSECTION: (context, payload) => {
+    context.commit('SET_CURRENT_SUBSECTION', payload)
   },
 
   DELETE_SECTION: (context, payload) => {
@@ -125,11 +135,21 @@ const actions = {
       })
         .then((r) => {
           context.commit('SET_DEFAULT')
-          resolve()
+          resolve(r)
         })
-        .catch(error => {
-          reject(error)
+        .catch(error => reject(error))
+    })
+  },
+  UPDATE_SUBSECTION: context => {
+    return new Promise((resolve, reject) => {
+      db.collection('subsections').doc(state.currentSubsection.id).update({
+        name: state.currentSubsection.name,
+      })
+        .then((r) => {
+          context.commit('SET_DEFAULT')
+          resolve(r)
         })
+        .catch(error => reject(error))
     })
   }
 }
