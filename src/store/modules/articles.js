@@ -59,9 +59,15 @@ const actions = {
         })
     },
     GET_TEXT: (context) => {
-        db.collection('texts').doc(state.currentArticle.textId).get()
-        .then((querySnapshot) => {
-            context.commit('SET_TEXT', querySnapshot.data().text);
+        return new Promise((resolve, reject) => {
+            db.collection('texts').doc(state.currentArticle.textId).get()
+            .then((querySnapshot) => {
+                context.commit('SET_TEXT', querySnapshot.data().text);
+                resolve(querySnapshot)
+            })
+            .catch((error) => {
+                reject(error);
+            });
         })
     },
     EDIT_ARTICLE: (context, article) => {
