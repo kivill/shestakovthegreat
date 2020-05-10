@@ -10,7 +10,7 @@ const state = {
         public: false,
         text: '',
         textId: '',
-        subsectionId: '', //TODO Указать связь
+        subsectionId: '',
     }
 };
 
@@ -39,7 +39,7 @@ const mutations = {
             public: false,
             text: '',
             textId: '',
-            subsectionId: '', //TODO
+            subsectionId: '',
         };
     },
 };
@@ -101,7 +101,7 @@ const actions = {
                     name: state.currentArticle.name,
                     public: state.currentArticle.public,
                     textId: textRef.id,
-                    subsectionId: '', //TODO
+                    subsectionId: state.currentArticle.subsectionId,
                 })
                 .then((articleRef) => {
                     context.commit('SET_ARTICLE_DEFAULT');
@@ -125,6 +125,7 @@ const actions = {
                 db.collection('articles').doc(state.currentArticle.id).update({
                     name: state.currentArticle.name,
                     public: state.currentArticle.public,
+                    subsectionId: state.currentArticle.subsectionId,
                 })
                 .then(() => {
                     context.commit('SET_ARTICLE_DEFAULT');

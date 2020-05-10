@@ -1,11 +1,4 @@
 <template>
-<div id="app">
-  <head>
-    <link
-      href="https://cdn.jsdelivr.net/npm/@mdi/font@latest/css/materialdesignicons.min.css"
-      rel="stylesheet"
-    />
-  </head>
   <v-app>
     <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
       <v-list flat>
@@ -34,8 +27,11 @@
       </v-toolbar-title>
 
       <v-spacer />
-      <v-btn @click="$router.push({path:'/sections'})">Разделы</v-btn>
-      <v-btn @click="$router.push({path:'/articles'})">Статьи</v-btn>
+      <div v-if="isAdmin">
+        <v-btn :to="{path:'/sections'}">Разделы</v-btn>
+        <v-btn :to="{path:'/articles'}">Статьи</v-btn>
+        <v-btn @click="signOut()">Выход</v-btn>
+      </div>      
       <!-- <v-btn icon>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -57,11 +53,10 @@
       </v-container>
     </v-content>
   </v-app>
-</div>
 </template>
 
 <script>
-import { db } from "@/plugins/firebase";
+import { db, auth } from "@/plugins/firebase";
 export default {
   name: "App",
   components: {},
@@ -104,6 +99,16 @@ export default {
   },
   created() {
     this.$store.dispatch("SET_SECTIONS", this.sections);
+    //AUTH Listener
+    // auth.onAuthStateChanged(function(user) {      
+    //     if (user) {
+    //       // User is signed in.
+    //       console.log("signed in")
+    //     } else {
+    //       // User is signed out.
+    //       console.log("signed out")
+    //     }
+    // });
   },
   mounted() {
     console.log("STORE.GETTERS.SECTIONS", this.$store.getters.SECTIONS);
@@ -113,9 +118,25 @@ export default {
       return this.background
         ? "https://cdn.vuetifyjs.com/images/backgrounds/bg-3.jpg"
         : undefined;
+    },
+    isAdmin() {
+      return this.$store.getters.IS_ADMIN
     }
   },
-  methods: {},
+  methods: {
+    signOut() {
+      var _this = this;
+      auth.signOut()
+      .then(() =>{
+        _this.$router.push({path:'/'})        
+        _this.$toast.success('Вы вышли');
+        _this.$store.dispatch('ADMIN_SIGN_OUT');
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+    }
+  },
   watch: {},
   firestore() {
     return { sections: db.collection("sections") };

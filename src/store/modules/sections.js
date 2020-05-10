@@ -19,6 +19,17 @@ const getters = {
   SECTIONS: state => state.sections.data,
   CURRENT_SECTION: state => state.currentSection,
   CURRENT_SUBSECTION: state => state.currentSubsection,
+
+  SECTIONS_FOR_ARTICLES: state => {
+    var list = []
+    for (const section of state.sections.data) {
+      list.push({header: section.name})
+      for (const subsection of section.subsections) {
+        list.push({name: subsection.name, value: subsection.id})
+      }
+    }
+    return list
+  },
 }
 
 const mutations = {

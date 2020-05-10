@@ -8,6 +8,14 @@
         Сохранить
     </v-btn>
     <v-switch v-model="article.public" class="ma-2" label="Публичная статья"></v-switch>
+    <v-select
+      v-model="article.subsectionId"
+      :items="sections"
+      label="Выберите тематику"
+      item-text="name"
+      item-value="id"
+    >
+    </v-select>
     <v-card>
         <v-toolbar dense flat color="grey lighten-4">
             <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
@@ -126,7 +134,6 @@ import {
     TodoItem,
     TodoList,
     Bold,
-    Code,
     Italic,
     Link,
     Strike,
@@ -160,6 +167,9 @@ export default {
     computed: {
         article() {
             return this.$store.getters.CURRENT_ARTICLE;
+        },
+        sections() {
+            return this.$store.getters.SECTIONS_FOR_ARTICLES;
         }
     },
     methods: {
@@ -178,7 +188,6 @@ export default {
                     new TodoList(),
                     new Link(),
                     new Bold(),
-                    new Code(),
                     new Italic(),
                     new Strike(),
                     new Underline(),
@@ -194,8 +203,10 @@ export default {
                 this.$store.dispatch('UPDATE_ARTICLE')
                 .then((articleRef) =>{
                     this.$router.push({ path: '/articles' });
+                    this.$toast.success('Статья сохранена');
                 })
                 .catch((error) => {
+                    this.$toast.warning('Ошибка при сохранении');
                     console.log(error);
                 });
             }
@@ -203,8 +214,10 @@ export default {
                 this.$store.dispatch('SAVE_ARTICLE')
                 .then((articleRef) =>{
                     this.$router.push({ path: '/articles' });
+                    this.$toast.success('Статья создана');
                 })
                 .catch((error) => {
+                    this.$toast.warning('Ошибка при создании');
                     console.log(error);
                 });
             }
@@ -214,9 +227,6 @@ export default {
             if (src !== null) {
                 command({ src })
             }
-        },
-        log(item) {
-            console.log(item)
         }
     },
     beforeDestroy() {
