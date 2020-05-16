@@ -4,6 +4,10 @@
         v-model="article.name"
         label="Название статьи"
     ></v-text-field>
+    <v-text-field
+        v-model="article.subtitle"
+        label="Описание статьи"
+    ></v-text-field>
     <v-btn @click="saveArticle()">
         Сохранить
     </v-btn>

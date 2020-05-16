@@ -7,6 +7,7 @@ const state = {
     currentArticle: {
         id: '',
         name: '',
+        subtitle: '',
         public: false,
         text: '',
         textId: '',
@@ -38,6 +39,7 @@ const mutations = {
         state.currentArticle = {
             id: '',
             name: '',
+            subtitle: '',
             public: false,
             text: '',
             textId: '',
@@ -104,6 +106,7 @@ const actions = {
                 .then((textRef) => {
                     db.collection('articles').add({
                         name: state.currentArticle.name,
+                        subtitle: state.currentArticle.subtitle,
                         public: state.currentArticle.public,
                         textId: textRef.id,
                         subsectionId: state.currentArticle.subsectionId,
@@ -129,6 +132,7 @@ const actions = {
                 .then(() => {
                     db.collection('articles').doc(state.currentArticle.id).update({
                         name: state.currentArticle.name,
+                        subtitle: state.currentArticle.subtitle,
                         public: state.currentArticle.public,
                         subsectionId: state.currentArticle.subsectionId,
                     })
