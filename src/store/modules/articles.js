@@ -151,7 +151,7 @@ const actions = {
     },
     GET_SUBSECTION_ARTICLES: (context, id) => {
         console.log('GET_SUBSECTION_ARTICLES', id)
-        db.collection("articles").where('subsectionId', '==', id).get().then(querySnapshot => {
+        db.collection("articles").where('subsectionId', '==', id).where('public','==',true).get().then(querySnapshot => {
             console.log(querySnapshot)
             let articles = []
             querySnapshot.forEach(doc => {
