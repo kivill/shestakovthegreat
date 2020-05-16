@@ -9,9 +9,9 @@
             </v-list-item-title>
 
             <template v-if="item.subsections.length > 0">
-              <v-list-item v-for="(child, childId) in item.subsections" :key="childId" link>
+              <v-list-item v-for="(child, childId) in item.subsections" :key="childId" link :to="`/subsection/${child.id}`" color="blue darken-1">
                 <v-list-item-content>
-                  <v-list-item-title>{{child.name}}</v-list-item-title>
+                    <v-list-item-title>{{child.name}}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </template>
@@ -31,7 +31,7 @@
         <v-btn :to="{path:'/sections'}">Разделы</v-btn>
         <v-btn :to="{path:'/articles'}">Статьи</v-btn>
         <v-btn @click="signOut()">Выход</v-btn>
-      </div>      
+      </div>
       <!-- <v-btn icon>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -64,43 +64,13 @@ export default {
     return {
       sections: [],
       dialog: false,
-      drawer: true,
-      items: [
-        { icon: "mdi-contacts", name: "Contacts" },
-        { icon: "mdi-history", name: "Frequently contacted" },
-        { icon: "mdi-content-copy", name: "Duplicates" },
-        {
-          icon: "mdi-chevron-up",
-          "icon-alt": "mdi-chevron-down",
-          text: "Labels",
-          model: false,
-          subsections: [{ icon: "mdi-plus", name: "Create label" }]
-        },
-        {
-          icon: "mdi-chevron-up",
-          "icon-alt": "mdi-chevron-down",
-          text: "More",
-          model: false,
-          subsections: [
-            { name: "Import" },
-            { name: "Export" },
-            { name: "Print" },
-            { name: "Undo changes" },
-            { name: "Other contacts" }
-          ]
-        },
-        { icon: "mdi-settings", name: "Settings" },
-        { icon: "mdi-message", name: "Send feedback" },
-        { icon: "mdi-help-circle", name: "Help" },
-        { icon: "mdi-cellphone-link", name: "App downloads" },
-        { icon: "mdi-keyboard", name: "Go to the old version" }
-      ]
+      drawer: true
     };
   },
   created() {
     this.$store.dispatch("SET_SECTIONS", this.sections);
     //AUTH Listener
-    // auth.onAuthStateChanged(function(user) {      
+    // auth.onAuthStateChanged(function(user) {
     //     if (user) {
     //       // User is signed in.
     //       console.log("signed in")
@@ -120,22 +90,23 @@ export default {
         : undefined;
     },
     isAdmin() {
-      return this.$store.getters.IS_ADMIN
+      return this.$store.getters.IS_ADMIN;
     }
   },
   methods: {
     signOut() {
       var _this = this;
-      auth.signOut()
-      .then(() =>{
-        _this.$router.push({path:'/'})        
-        _this.$toast.success('Вы вышли');
-        _this.$store.dispatch('ADMIN_SIGN_OUT');
-      })
-      .catch((error) => {
-        // An error happened.
-      });
-    }
+      auth
+        .signOut()
+        .then(() => {
+          _this.$router.push({ path: "/" });
+          _this.$toast.success("Вы вышли");
+          _this.$store.dispatch("ADMIN_SIGN_OUT");
+        })
+        .catch(error => {
+          // An error happened.
+        });
+    },
   },
   watch: {},
   firestore() {

@@ -12,7 +12,8 @@ const state = {
   currentSubsection: {
     id: '',
     name: '',
-  }
+  },
+  
 }
 
 const getters = {
@@ -23,9 +24,9 @@ const getters = {
   SECTIONS_FOR_ARTICLES: state => {
     var list = []
     for (const section of state.sections.data) {
-      list.push({header: section.name})
+      list.push({ header: section.name })
       for (const subsection of section.subsections) {
-        list.push({name: subsection.name, value: subsection.id})
+        list.push({ name: subsection.name, value: subsection.id })
       }
     }
     return list
@@ -59,6 +60,7 @@ const mutations = {
         name: '',
       }
   },
+  
 }
 
 const actions = {
@@ -162,7 +164,8 @@ const actions = {
         })
         .catch(error => reject(error))
     })
-  }
+  },
+  
 }
 
 export default {

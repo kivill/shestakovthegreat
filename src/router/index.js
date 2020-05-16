@@ -10,7 +10,7 @@ import article from '@/views/article.vue';
 import sections from '@/views/sections.vue';
 import login from '@/views/login.vue';
 import page404 from '@/views/404.vue';
-
+import subsection from '@/views/subsection.vue';
 Vue.use(Router);
 const router = new Router({
     mode: 'history',
@@ -33,7 +33,7 @@ const router = new Router({
         {
             path: '/articles/create',
             name: 'CreateArticle',
-            component: article,            
+            component: article,
             beforeEnter: Guard([
                 Middlewares.adminAccess,
                 Middlewares.articleIsEmpty,
@@ -42,7 +42,7 @@ const router = new Router({
         {
             path: '/articles/edit',
             name: 'EditArticle',
-            component: article,         
+            component: article,
             beforeEnter: Guard([
                 Middlewares.adminAccess,
                 Middlewares.articleIsEmpty,
@@ -50,14 +50,19 @@ const router = new Router({
         },
         {
             path: '/sections',
-            component: sections,         
+            component: sections,
             beforeEnter: Guard([
                 Middlewares.adminAccess,
             ]),
         },
         {
+            path: '/subsection/:id',
+            component: subsection,
+            
+        },
+        {
             path: '/404',
-            component: page404,  
+            component: page404,
         },
         {
             path: '*',

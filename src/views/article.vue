@@ -13,7 +13,7 @@
       :items="sections"
       label="Выберите тематику"
       item-text="name"
-      item-value="id"
+      item-value="value"
     >
     </v-select>
     <v-card>

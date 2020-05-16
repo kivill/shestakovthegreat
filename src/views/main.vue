@@ -1,16 +1,6 @@
 <template>
     <div>
-        Добавить новый пункт в меню
-        <v-text-field
-          v-model="name"
-          label="Название раздела"
-        ></v-text-field>
-        <v-btn @click="addSection()">
-            Добавить
-        </v-btn>
-        <pre>
-            {{menu}}
-        </pre>
+        Hello
     </div>
 </template>
 
