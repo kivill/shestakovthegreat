@@ -10,7 +10,7 @@
                 :key="article.id"
             >
                 <v-list-item-content>
-                    <v-list-item-title v-text="article.name"></v-list-item-title>
+                    <v-list-item-title v-text="(article.public?'✅ ':'') + article.name"></v-list-item-title>
                 </v-list-item-content>
                 <v-list-item-action class="d-inline">
                     <v-btn icon @click="editArticle(article)">

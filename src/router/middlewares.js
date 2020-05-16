@@ -12,7 +12,8 @@ const Middlewares = {
             ? undefined
             : '/articles';
         next(route);
-    }
+    },
+    
 }
 
 export { Middlewares }

@@ -1,6 +1,6 @@
 <template>
     <div>
-        Hello
+        Добро пожаловать на сайт Шестакова А.П.
     </div>
 </template>
 
@@ -10,19 +10,11 @@ export default {
     name: 'mainPage',
     data() {
         return {
-            menu: [],
-            name: '',
+            
         }
     },
     methods: {
-        addSection() {
-            if (this.name.length > 0) {
-                db.collection('sections').add({
-                    name: this.name,
-                })
-            };
-            this.name = '';
-        },
+        
     },
 	firestore() {
 		return {
