@@ -65,9 +65,9 @@ const actions = {
                 context.commit('SET_ARTICLES', articles);
             })
     },
-    GET_TEXT: (context) => {
+    GET_TEXT: (context, textId) => {
         return new Promise((resolve, reject) => {
-            db.collection('texts').doc(state.currentArticle.textId).get()
+            db.collection('texts').doc(textId || state.currentArticle.textId).get()
                 .then((querySnapshot) => {
                     context.commit('SET_TEXT', querySnapshot.data().text);
                     resolve(querySnapshot)
@@ -150,12 +150,12 @@ const actions = {
         });
     },
     GET_SUBSECTION_ARTICLES: (context, id) => {
-        console.log('GET_SUBSECTION_ARTICLES', id)
+        // console.log('GET_SUBSECTION_ARTICLES', id)
         db.collection("articles").where('subsectionId', '==', id).where('public','==',true).get().then(querySnapshot => {
-            console.log(querySnapshot)
+            //console.log(querySnapshot)
             let articles = []
             querySnapshot.forEach(doc => {
-                console.log(doc.data())
+                //console.log(doc.data())
                 articles.push(doc.data())
             });
             context.commit('SET_ACTUAL_ARTICLES', articles)

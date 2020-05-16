@@ -49,6 +49,13 @@ const router = new Router({
             ]),
         },
         {
+            path: '/articles/read/:id',
+            name: 'ReadArticle',
+            component: article,
+            
+        }
+        ,
+        {
             path: '/sections',
             component: sections,
             beforeEnter: Guard([

@@ -1,14 +1,20 @@
 <template>
   <div class="container">
-    <template v-for="(article) of articles">
+    <div v-if="articles.length==0">Раздел пуст.</div>
+    <template v-else v-for="(article) of articles">
       <div :key="article.id">
         <v-card color="white" style="margin: 20px auto">
           <v-card-title class="headline">{{article.name}}</v-card-title>
           <v-card-subtitle>{{article.subtitle}}</v-card-subtitle>
           <v-card-actions>
-            <v-btn text color="blue darken-1" :to="'/article/'">Читать</v-btn>
+            <v-btn text color="blue darken-1" @click="readArticle(article)">Читать</v-btn>
 
-            <v-btn v-if="isAdmin" text color="blue darken-1" @click="editArticle(article)">Редактировать</v-btn>
+            <v-btn
+              v-if="isAdmin"
+              text
+              color="blue darken-1"
+              @click="editArticle(article)"
+            >Редактировать</v-btn>
           </v-card-actions>
         </v-card>
       </div>
@@ -32,6 +38,10 @@ export default {
     editArticle(article) {
       this.$store.dispatch("EDIT_ARTICLE", article);
       this.$router.push({ path: "/articles/edit" });
+    },
+    readArticle(article) {
+      this.$store.dispatch("EDIT_ARTICLE", article);
+      this.$router.push({ path: "/articles/read/" + article.textId });
     }
   },
   computed: {
