@@ -27,11 +27,36 @@
       </v-toolbar-title>
 
       <v-spacer />
-      <div v-if="isAdmin">
+      <div v-if="isAdmin" class="hidden-sm-and-down">
         <v-btn :to="{path:'/sections'}">Разделы</v-btn>
         <v-btn :to="{path:'/articles'}">Статьи</v-btn>
         <v-btn @click="signOut()">Выход</v-btn>
       </div>
+      <div v-if="isAdmin" class="hidden-md-and-up">
+        <v-menu offset-y >
+          <template v-slot:activator="{ on }">
+            <v-btn
+              color="primary"
+              dark
+              v-on="on"
+            >
+              Меню
+            </v-btn>
+          </template>
+          <v-list>
+            <v-list-item :to="{path:'/sections'}">
+              <v-list-item-title>Разделы</v-list-item-title>
+            </v-list-item>
+            <v-list-item :to="{path:'/articles'}">
+              <v-list-item-title>Статьи</v-list-item-title>
+            </v-list-item>
+            <v-list-item @click="signOut()">
+              <v-list-item-title>Выход</v-list-item-title>
+            </v-list-item>
+          </v-list>
+        </v-menu>
+      </div>
+      
       <!-- <v-btn icon>
         <v-icon>mdi-apps</v-icon>
       </v-btn>

@@ -152,12 +152,16 @@ export default {
       this.$store.dispatch("GET_TEXT").then(data => {
         _this.startEditor(this.article.text);
       });
+    } else if ("CreateArticle" == this.$route.name) {
+      var _this = this;
+      _this.startEditor(this.article.text);
     } else if (this.$route.params.id) {
       var _this = this;
       this.$store.dispatch("GET_TEXT", this.$route.params.id).then(data => {
         _this.startEditor(this.article.text);
       });
     }
+    
   },
   computed: {
     article() {
@@ -235,6 +239,7 @@ export default {
   },
   beforeDestroy() {
     this.editor.destroy();
+    this.$store.commit('SET_ARTICLE_DEFAULT');
   }
 };
 </script>
