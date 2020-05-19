@@ -65,10 +65,6 @@ const router = new Router({
         {
             path: '/subsection/:id',
             component: subsection,
-            beforeEnter: Guard([
-                Middlewares.adminAccess,
-            ]),
-            
         },
         {
             path: '/404',
