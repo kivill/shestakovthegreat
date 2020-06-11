@@ -32,9 +32,9 @@ export default {
   },
   computed: {
     section() {
-      if (this.mode == "SUBCREATE" || this.mode == "SUBEDIT") {
-        return this.$store.getters.CURRENT_SUBSECTION;
-      }
+      // if (this.mode == "SUBCREATE" || this.mode == "SUBEDIT") {
+      //   return this.$store.getters.CURRENT_SUBSECTION;
+      // }
       return this.$store.getters.CURRENT_SECTION;
     }
   },
@@ -43,7 +43,7 @@ export default {
       return (
         (this.mode.includes("CREATE") ? "Создание " : "Редактирование ") +
         (this.mode.includes("SUB") ? "под" : "") +
-        "категории"
+        "раздела"
       );
     },
     saveArticle() {

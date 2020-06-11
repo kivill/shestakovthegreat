@@ -6,21 +6,15 @@ const state = {
   },
   currentSection: {
     id: '',
+    parent: false,
     name: '',
     subsections: []
   },
-  currentSubsection: {
-    id: '',
-    name: '',
-  },
-  
 }
 
 const getters = {
   SECTIONS: state => state.sections.data,
   CURRENT_SECTION: state => state.currentSection,
-  CURRENT_SUBSECTION: state => state.currentSubsection,
-
   SECTIONS_FOR_ARTICLES: state => {
     var list = []
     for (const section of state.sections.data) {
@@ -54,21 +48,84 @@ const mutations = {
       id: '',
       name: '',
       subsections: [],
-    },
-      state.currentSubsection = {
-        id: '',
-        name: '',
-      }
+    }
   },
-  
+
 }
 
 const actions = {
   SET_DEFAULT: context => {
     context.commit('SET_DEFAULT')
   },
-  SET_SECTIONS: (context, payload) => {
-    context.commit('SET_SECTIONS', payload)
+  SET_SECTIONS: async (context) => {
+    function getFromRef(ref) {
+      return ref.get()
+        .then(querySnapshot => {
+          let r = []
+          querySnapshot.forEach(doc => {
+            let data = doc.data()
+            r.push({
+              id: doc.id,
+              ...data
+            })
+          });
+          return r
+        })
+    }
+    function findInResult(id) {
+      for (let r in Object.keys(result)) {
+        if (result[r].id == id)
+          return result[r]
+      }
+      return -1
+    }
+    function setSubs(node) {
+      if (node.subsections.length == 0)
+        return node
+
+      let mas = []
+      node.subsections.forEach(async sub => {
+        let del = findInResult(sub.id)
+        if (del != -1) {
+          mas.push(setSubs(del))
+
+        }
+        else {
+          // let doc = db.collection('subsections').doc(node.id)
+          // let new_subs = (await doc.get()).data().subsections.filter(el => el.id != sub.id)
+          // doc.update({
+          //   subsections: new_subs
+          // })
+          //   .then(() => {
+          //     return db.collection('subsections').doc(sub.id).delete()
+          //   })
+          //   .catch(error => {
+          //     reject(error)
+          //   })
+          // console.log('del ', node.id)
+        }
+      })
+      node.subsections = mas
+      return node
+    }
+    let result = await getFromRef(db.collection('subsections'))
+    result = result.map(e => {
+      return setSubs(e)
+    }).filter(e => e.parent == true)
+    console.log('SECTIONS', result)
+    context.commit('SET_SECTIONS', result);
+    // db.collection('subsections').get()
+    //   .then((querySnapshot) => {
+    //     querySnapshot.forEach((doc) => {
+    //       let data = doc.data()
+    //       sections.push({
+    //         id: doc.id,
+    //         ...data
+    //       });
+    //     })
+    //     console.log('SECTIONS', sections)
+    //     
+    //   })
   },
   EDIT_SECTION: (context, payload) => {
     context.commit('SET_CURRENT_SECTION', payload)
@@ -80,7 +137,7 @@ const actions = {
 
   DELETE_SECTION: (context, payload) => {
     return new Promise((resolve, reject) => {
-      db.collection('sections').doc(payload.id).delete()
+      db.collection('subsections').doc(payload.id).delete()
         .then(ref => {
           resolve(ref)
         })
@@ -91,7 +148,7 @@ const actions = {
   },
   DELETE_SUBSECTION: (context, { subsection, section }) => {
     return new Promise(async (resolve, reject) => {
-      let doc = db.collection('sections').doc(section.id)
+      let doc = db.collection('subsections').doc(section.id)
       let new_subs = (await doc.get()).data().subsections.filter(el => el.id != subsection.id)
       doc.update({
         subsections: new_subs
@@ -107,8 +164,9 @@ const actions = {
 
   SAVE_SECTION: context => {
     return new Promise((resolve, reject) => {
-      db.collection('sections').add({
+      db.collection('subsections').add({
         name: state.currentSection.name,
+        parent: state.currentSection.parent,
         subsections: [],
       })
         .then(ref => {
@@ -124,10 +182,12 @@ const actions = {
   SAVE_SUBSECTION: context => {
     return new Promise((resolve, reject) => {
       db.collection('subsections').add({
-        name: state.currentSubsection.name,
+        name: state.currentSection.name,
+        parent: false,
+        subsections: [],
       })
         .then(async ref => {
-          let docREF = db.collection('sections').doc(state.currentSection.id)
+          let docREF = db.collection('subsections').doc(state.currentSection.id)
           let doc = await docREF.get()
           return docREF.update({
             subsections: [...doc.data().subsections, ref]
@@ -143,7 +203,7 @@ const actions = {
 
   UPDATE_SECTION: context => {
     return new Promise((resolve, reject) => {
-      db.collection('sections').doc(state.currentSection.id).update({
+      db.collection('subsections').doc(state.currentSection.id).update({
         name: state.currentSection.name,
       })
         .then((r) => {
@@ -153,19 +213,6 @@ const actions = {
         .catch(error => reject(error))
     })
   },
-  UPDATE_SUBSECTION: context => {
-    return new Promise((resolve, reject) => {
-      db.collection('subsections').doc(state.currentSubsection.id).update({
-        name: state.currentSubsection.name,
-      })
-        .then((r) => {
-          context.commit('SET_DEFAULT')
-          resolve(r)
-        })
-        .catch(error => reject(error))
-    })
-  },
-  
 }
 
 export default {

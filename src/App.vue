@@ -1,49 +1,68 @@
 <template>
   <v-app>
-    <v-navigation-drawer v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
-      <v-list flat>
-        <v-list-item v-for="item in sections" :key="item.id">
-          <v-list-item-content>
-            <v-list-item-title>
-              <strong>{{item.name}}</strong>
-            </v-list-item-title>
+    <v-navigation-drawer v-if="admin" v-model="drawer" :clipped="$vuetify.breakpoint.lgAndUp" app>
+      <v-treeview
+        :items="sections"
+        open-on-click
+        item-children="subsections"
+        :open.sync="open"
+        :active.sync="active"
+        activatable
+        color="blue"
+        transition
+        @update:active="updateTree"
+        dense
+      ></v-treeview>
+      <v-divider />
+      <!-- {{active}}
+      {{open}}-->
+      <!-- <v-list flat>
+          <v-list-item v-for="item in sections" :key="item.id">
+            <v-list-item-content>
+              <v-list-item-title>
+                <strong>{{item.name}}</strong>
+              </v-list-item-title>
 
-            <template v-if="item.subsections.length > 0">
-              <v-list-item v-for="(child, childId) in item.subsections" :key="childId" link :to="`/subsection/${child.id}`" color="blue darken-1">
-                <v-list-item-content>
+              <template v-if="item.subsections.length > 0">
+                <v-list-item
+                  v-for="(child, childId) in item.subsections"
+                  :key="childId"
+                  link
+                  :to="`/subsection/${child.id}`"
+                  color="blue darken-1"
+                >
+                  <v-list-item-content>
                     <v-list-item-title>{{child.name}}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
-            </template>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+                  </v-list-item-content>
+                </v-list-item>
+              </template>
+            </v-list-item-content>
+          </v-list-item>
+      </v-list>-->
     </v-navigation-drawer>
 
     <v-app-bar :clipped-left="$vuetify.breakpoint.lgAndUp" app color="gray darken-3" dark>
-      <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
+      <v-app-bar-nav-icon v-if="admin" @click.stop="drawer = !drawer" />
       <v-toolbar-title style="width: 300px" class="pl-3">
-        <span class="hidden-sm-and-down">Shestakov the great</span>
+        <span class="hidden-sm-and-down">Шестаков А.П.</span>
       </v-toolbar-title>
 
       <v-spacer />
       <div v-if="isAdmin" class="hidden-sm-and-down">
+        <v-btn :to="{path:'/'}">Главная</v-btn>
         <v-btn :to="{path:'/sections'}">Разделы</v-btn>
         <v-btn :to="{path:'/articles'}">Статьи</v-btn>
         <v-btn @click="signOut()">Выход</v-btn>
       </div>
       <div v-if="isAdmin" class="hidden-md-and-up">
-        <v-menu offset-y >
+        <v-menu offset-y>
           <template v-slot:activator="{ on }">
-            <v-btn
-              color="primary"
-              dark
-              v-on="on"
-            >
-              Меню
-            </v-btn>
+            <v-btn color="primary" dark v-on="on">Меню</v-btn>
           </template>
           <v-list>
+            <v-list-item :to="{path:'/'}">
+              <v-list-item-title>Главная</v-list-item-title>
+            </v-list-item>
             <v-list-item :to="{path:'/sections'}">
               <v-list-item-title>Разделы</v-list-item-title>
             </v-list-item>
@@ -56,7 +75,7 @@
           </v-list>
         </v-menu>
       </div>
-      
+
       <!-- <v-btn icon>
         <v-icon>mdi-apps</v-icon>
       </v-btn>
@@ -87,23 +106,15 @@ export default {
   components: {},
   data() {
     return {
-      sections: [],
       dialog: false,
-      drawer: true
+      drawer: true,
+      active: [],
+      open: null,
+      menu: []
     };
   },
   created() {
-    this.$store.dispatch("SET_SECTIONS", this.sections);
-    //AUTH Listener
-    // auth.onAuthStateChanged(function(user) {
-    //     if (user) {
-    //       // User is signed in.
-    //       console.log("signed in")
-    //     } else {
-    //       // User is signed out.
-    //       console.log("signed out")
-    //     }
-    // });
+    this.$store.dispatch("SET_SECTIONS", this.menu);
   },
   mounted() {
     console.log("STORE.GETTERS.SECTIONS", this.$store.getters.SECTIONS);
@@ -116,9 +127,21 @@ export default {
     },
     isAdmin() {
       return this.$store.getters.IS_ADMIN;
+    },
+    selected() {
+      return "";
+    },
+    sections() {
+      return this.$store.getters.SECTIONS;
+    },
+    admin() {
+      return !["/articles", "/sections"].includes(this.$route.path);
     }
   },
   methods: {
+    updateTree(e) {
+      if (e[0]) this.$router.push({ path: `/subsection/${e[0]}` });
+    },
     signOut() {
       var _this = this;
       auth
@@ -131,11 +154,13 @@ export default {
         .catch(error => {
           // An error happened.
         });
-    },
+    }
   },
   watch: {},
   firestore() {
-    return { sections: db.collection("sections") };
+    return {
+      menu: db.collection("subsections").where("parent", "==", true)
+    };
   }
 };
 </script>

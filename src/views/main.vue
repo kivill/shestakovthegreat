@@ -10,17 +10,14 @@ export default {
     name: 'mainPage',
     data() {
         return {
-            
+          sections:[],  
         }
     },
+    
     methods: {
         
     },
-	firestore() {
-		return {
-            menu: db.collection('sections')
-        }
-	},
+	
 }
 </script>
 
