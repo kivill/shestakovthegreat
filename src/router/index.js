@@ -44,15 +44,13 @@ const router = new Router({
             component: article,
             beforeEnter: Guard([
                 Middlewares.adminAccess,
+                Middlewares.articleIsEmpty,
             ]),
         },
         {
             path: '/articles/read/:id',
             name: 'ReadArticle',
             component: article,
-            beforeEnter: Guard([
-                Middlewares.articleIsEmpty,
-            ]),
         }
         ,
         {
