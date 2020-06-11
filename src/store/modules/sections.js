@@ -16,13 +16,15 @@ const getters = {
   SECTIONS: state => state.sections.data,
   CURRENT_SECTION: state => state.currentSection,
   SECTIONS_FOR_ARTICLES: state => {
-    var list = []
-    for (const section of state.sections.data) {
-      list.push({ header: section.name })
-      for (const subsection of section.subsections) {
-        list.push({ name: subsection.name, value: subsection.id })
+    function getLeaves(node, obj) {
+      if (node.subsections.length == 0) {
+        obj.push({ value: node.id, name: node.name })
+      } else {
+        node.subsections.forEach((child)=>{getLeaves(child, obj)})
       }
     }
+    var list = []
+    state.sections.data.forEach((child)=>getLeaves(child, list));
     return list
   },
 }

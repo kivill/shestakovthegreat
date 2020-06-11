@@ -13,7 +13,7 @@
         item-value="value"
       ></v-select>
     </template>
-    <editor-menu-bubble :elevation="20" class="menububble" :editor="editor" @hide="hideLinkMenu" v-slot="{ commands, isActive, getMarkAttrs, menu }">
+    <editor-menu-bubble v-if="isEditable" :elevation="20" class="menububble" :editor="editor" @hide="hideLinkMenu" v-slot="{ commands, isActive, getMarkAttrs, menu }">
       <div
         class="menububble"
         :class="{ 'is-active': menu.isActive }"
@@ -369,7 +369,9 @@ export default {
     },
   },
   beforeDestroy() {
-    this.editor.destroy();
+    if (this.editor == null) {
+      this.editor.destroy();
+    }
     this.$store.commit('SET_ARTICLE_DEFAULT');
   }
 };
